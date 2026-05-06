@@ -14,13 +14,16 @@
     font-weight: 400;
     border-radius: 1rem;
 }
+
 .field input::placeholder {
     color: var(--white);
 }
+
 .form select option {
-    background-color: rgba(0,0,0,0.85);
+    background-color: rgba(0, 0, 0, 0.85);
     color: var(--white);
 }
+
 .submit {
     background-color: var(--primary);
     border: none;
