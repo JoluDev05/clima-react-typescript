@@ -2,6 +2,7 @@ import axios from 'axios'
 import { z } from 'zod'
 /* import { object, string, number, Output, parse } from 'valibot' */
 import type { SearchType } from '../types'
+import { useMemo, useState } from 'react'
 
 
 /* //Type Guards o assertions de tipo
@@ -37,20 +38,40 @@ const Weather = z.object({
         temp_max: z.number()
     })
 })
-type Weather = z.infer<typeof Weather>
+export type Weather = z.infer<typeof Weather>
 
 
-
+const initialState =  {
+            name: '',
+            main: {
+                temp: 0,
+                temp_min: 0,
+                temp_max: 0
+            }
+        }
 
 export default function useWeather() {
 
+    const [weather, setWeather] = useState<Weather> (initialState)
+    const [loading, setLoading] = useState(false)
+    const [notFound, setNotFound] = useState(false)
+
     const fetchWeather = async (search: SearchType) => {
         const appId = import.meta.env.VITE_API_KEY
+        setLoading(true)
+        setWeather(initialState)
         try {
-            const geoUrl = `http://api.openweathermap.org/geo/1.0/direct?q=${search.city},${search.country}&appid=${appId}`
+            const geoUrl = `https://api.openweathermap.org/geo/1.0/direct?q=${search.city},${search.country}&appid=${appId}`
 
             const { data } = await axios(geoUrl)
 
+            //Comprobar si existe
+
+            if (!data[0]) {
+                console.log('No se encontraron resultados para la ciudad y país proporcionados')
+                setNotFound(true)
+                return
+            }
             const lat = data[0].lat
             const lon = data[0].lon
 
@@ -87,20 +108,24 @@ export default function useWeather() {
             const { data: weatherResult } = await axios(weatherUrl)
             const result = Weather.safeParse(weatherResult)
             if (result.success) {
-                console.log(result.data.name)
-                console.log(result.data.main.temp)
-            } else {
-                console.log('La respuesta no tiene el formato esperado')
-            }
+                setWeather(result.data)
+            } 
 
 
 
         } catch (error) {
             console.log(error)
+        } finally {
+            setLoading(false)
         }
     }
+    const hasWeatherData = useMemo(() =>  weather.name !== '', [weather])
 
     return {
-        fetchWeather
+        weather,
+        loading,
+        notFound,
+        fetchWeather,
+        hasWeatherData
     }
 }

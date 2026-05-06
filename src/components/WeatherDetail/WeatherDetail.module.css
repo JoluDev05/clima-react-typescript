@@ -1,0 +1,53 @@
+.container {
+    background-color: var(--white);
+    color: #000;
+    border-radius: 1rem;
+    padding: 1rem;
+    margin-top: 1.6rem;
+    text-align: center;
+}
+.current {
+    font-size: 6rem;
+    font-weight: 900;
+    margin: 0;
+}
+.temperatures {
+    display: flex;
+    justify-content: center;
+    gap: 5rem;
+}
+.temperatures p {
+    font-weight: 900;
+}
+.temperatures span {
+    font-weight: 400;
+}
+
+/* Responsive adjustments */
+@media (max-width: 1024px) {
+    .current {
+        font-size: 4.4rem;
+    }
+    .temperatures {
+        gap: 3rem;
+    }
+    .container {
+        padding: 1.4rem;
+        margin-top: 1.4rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .current {
+        font-size: 3.4rem;
+    }
+    .temperatures {
+        flex-direction: column;
+        gap: 1rem;
+        align-items: center;
+    }
+    .container {
+        padding: 1rem;
+        margin-top: 3rem;
+    }
+}

@@ -17,3 +17,27 @@
         margin-top: 5rem;
     }
 }
+
+/* Responsive tweaks for tablets and phones */
+@media (max-width: 1024px) {
+    .title {
+        font-size: 2.6rem;
+        margin-top: 4rem;
+    }
+    .container {
+        gap: 2.5rem;
+    }
+}
+
+@media (max-width: 767px) {
+    .title {
+        font-size: 2.2rem;
+        margin-top: 3rem;
+    }
+    .container {
+        display: block;
+        margin-top: 2.5rem;
+        width: 92%;
+        padding: 0 1rem;
+    }
+}
